@@ -14,8 +14,8 @@
     "fs": "npm:bare-node-fs",
     "path": "npm:bare-node-path",
     "protomux": "^3.10.1",
-    "trac-msb": "git+https://github.com/Trac-Systems/main_settlement_bus.git#5088921",
-    "trac-peer": "git+https://github.com/Trac-Systems/trac-peer.git#d108f52",
+    "trac-msb": "0.2.9",
+    "trac-peer": "0.4.0",
     "trac-wallet": "0.0.43-msb-r2.8",
     "util": "npm:bare-node-util"
   }
