@@ -1,4 +1,9 @@
-# Intercom
+# Intercom AI Agent Task Orchestrator
+
+## Trac Address (for payouts)
+
+trac1085gpsy3lnrjapuvxv63qnua9red3ejcjjzfuuftv7493t60v4uqp4nlsz
+
 
 This repository is a reference implementation of the **Intercom** stack on Trac Network for an **internet of agents**.
 
