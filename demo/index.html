@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Intercom AI Orchestrator — Demo</title>
+<style>
+body { background:#0a0b0f; color:#e8eaf0; font-family:monospace; padding:2rem; }
+h1 { color:#00e5c8; }
+.input-row { display:flex; gap:1rem; margin:1.5rem 0; }
+input { flex:1; background:#12141a; border:1px solid #1e2130; color:#e8eaf0; font-family:monospace; padding:0.75rem; border-radius:6px; font-size:0.9rem; }
+button { background:#00e5c8; color:#000; border:none; padding:0.75rem 1.5rem; border-radius:6px; font-weight:bold; cursor:pointer; font-size:0.9rem; }
+.task { background:#12141a; border:1px solid #1e2130; border-radius:8px; padding:1rem; margin:0.5rem 0; border-left:3px solid #00e5c8; animation:in .3s ease; }
+@keyframes in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.tag { background:#1a1d2a; color:#f5c518; padding:0.2rem 0.5rem; border-radius:3px; font-size:0.75rem; margin-right:0.5rem; }
+.log { background:#12141a; border:1px solid #1e2130; border-radius:8px; padding:1rem; margin-top:1rem; max-height:200px; overflow-y:auto; font-size:0.8rem; }
+.log p { margin:0.2rem 0; color:#5a6070; }
+.log p span { color:#00e5c8; }
+</style>
+</head>
+<body>
+<h1>Intercom AI Agent Orchestrator</h1>
+<p style="color:#5a6070">Built on Trac Network · P2P Agent Coordination</p>
+<div class="input-row">
+  <input id="goal" value="Monitor TRAC wallet for large transfers and alert team" />
+  <button onclick="run()">▶ Orchestrate</button>
+</div>
+<div id="tasks"></div>
+<div class="log" id="log"></div>
+<script>
+const plans = {
+  default:[
+    {id:1,agentType:'data-fetcher',task:'Fetch wallet transaction history for the last 24 hours.',priority:'high'},
+    {id:2,agentType:'analyzer',task:'Identify transactions above threshold and flag suspicious activity.',priority:'high'},
+    {id:3,agentType:'reporter',task:'Generate summary report and dispatch alerts to team.',priority:'medium'},
+  ]
+}
+function addLog(msg,color='#00e5c8'){
+  const d=document.getElementById('log')
+  d.innerHTML+=<p><span>[]</span> <span style="color:"></span></p>
+  d.scrollTop=d.scrollHeight
+}
+async function run(){
+  const goal=document.getElementById('goal').value
+  document.getElementById('tasks').innerHTML=''
+  document.getElementById('log').innerHTML=''
+  addLog('Initialising orchestrator...')
+  await delay(600)
+  addLog('Joined Intercom sidechannel: intercom-ai-orchestrator-v1','#6a42c2')
+  await delay(800)
+  addLog('2 peers discovered','#6a42c2')
+  await delay(500)
+  addLog('Decomposing goal via LLM...')
+  await delay(1200)
+  addLog('3 subtasks generated','#2ed573')
+  for(const s of plans.default){
+    await delay(400)
+    document.getElementById('tasks').innerHTML+=<div class="task"><span class="tag">#</span><span class="tag"></span><span class="tag"></span><br/><br/></div>
+    addLog(→ task # [] broadcast to peers','#6a42c2)
+    await delay(800)
+    addLog(✓ task # acknowledged by agent','#2ed573)
+  }
+  addLog('Orchestration complete ✓','#2ed573')
+}
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+</script>
+</body>
+</html>
