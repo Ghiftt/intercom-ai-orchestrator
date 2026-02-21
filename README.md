@@ -27,7 +27,7 @@ Open the hosted interactive demo here:
 ## Video Proof of Functionality
 
 Full demo recording (~30 seconds):  
-[Intercom AI Agent Orchestrator Demo](https://youtu.be/KWgLy-qRh-0)  
+[Intercom AI Agent Orchestrator Demo](https://youtu.be/KlQO1ETwssM)  
 Shows complete flow: goal input → LLM breakdown → sidechannel join/peers → task assignment → completion with logs.
 
 ## Local Demo Instructions (Full P2P Functionality)
