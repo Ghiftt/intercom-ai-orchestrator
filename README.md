@@ -1,6 +1,6 @@
 # Intercom AI Agent Task Orchestrator
 
-## Trac Address (for Bounty Payouts)
+## Trac Address 
 
 trac1085gpsy3lnrjapuvxv63qnua9red3ejcjjzfuuftv7493t60v4uqp4nlsz
 
