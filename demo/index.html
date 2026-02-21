@@ -1,1 +1,354 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>Intercom AI Orchestrator</title><style>body{background:#0a0b0f;color:#e8eaf0;font-family:monospace;padding:2rem}h1{color:#00e5c8}p{color:#5a6070;margin-bottom:1.5rem}.row{display:flex;gap:1rem;margin-bottom:1.5rem}input{flex:1;background:#12141a;border:1px solid #1e2130;color:#e8eaf0;font-family:monospace;padding:.75rem;border-radius:6px;font-size:.9rem}button{background:#00e5c8;color:#000;border:none;padding:.75rem 1.5rem;border-radius:6px;font-weight:bold;cursor:pointer}.task{background:#12141a;border-left:3px solid #00e5c8;border-radius:6px;padding:1rem;margin:.5rem 0}.tag{background:#1a1d2a;color:#f5c518;padding:.15rem .5rem;border-radius:3px;font-size:.75rem;margin-right:.4rem}.log{background:#12141a;border:1px solid #1e2130;border-radius:6px;padding:1rem;margin-top:1rem;max-height:220px;overflow-y:auto;font-size:.8rem}.entry{display:block;margin:.15rem 0;color:#5a6070}</style></head><body><h1>Intercom AI Agent Orchestrator</h1><p>Built on Trac Network - P2P Agent Coordination</p><div class="row"><input id="goal" value="Monitor TRAC wallet for large transfers and alert team"/><button onclick="run()">Orchestrate</button></div><div id="tasks"></div><div class="log" id="log"></div><script>function addLog(msg,color){color=color||'#00e5c8';var d=document.getElementById('log');var e=document.createElement('span');e.className='entry';e.style.color=color;e.textContent='['+new Date().toTimeString().slice(0,8)+'] '+msg;d.appendChild(e);d.scrollTop=d.scrollHeight}function delay(ms){return new Promise(function(r){setTimeout(r,ms)})}async function run(){var goal=document.getElementById('goal').value;document.getElementById('tasks').innerHTML='';document.getElementById('log').innerHTML='';var subtasks=[{id:1,agentType:'data-fetcher',task:'Fetch wallet transaction history for the last 24 hours.'},{id:2,agentType:'analyzer',task:'Identify transactions above threshold and flag suspicious activity.'},{id:3,agentType:'reporter',task:'Generate summary report and dispatch alerts to team.'}];addLog('Initialising orchestrator...');await delay(600);addLog('Joined Intercom sidechannel: intercom-ai-orchestrator-v1','#6a42c2');await delay(800);addLog('2 peers discovered on network','#6a42c2');await delay(600);addLog('Decomposing goal via LLM...');await delay(1200);addLog('3 subtasks generated','#2ed573');for(var i=0;i<subtasks.length;i++){var s=subtasks[i];await delay(500);var div=document.createElement('div');div.className='task';div.innerHTML='<span class="tag">#'+s.id+'</span><span class="tag">'+s.agentType+'</span><br><br>'+s.task;document.getElementById('tasks').appendChild(div);addLog('task #'+s.id+' ['+s.agentType+'] broadcast to peers','#6a42c2');await delay(800);addLog('task #'+s.id+' acknowledged by agent','#2ed573')}addLog('Orchestration complete!','#2ed573')}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Intercom AI Agent Orchestrator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080d;
+  --surface:#0e1018;
+  --card:#13161f;
+  --border:#1c2030;
+  --cyan:#00e5c8;
+  --yellow:#f5c518;
+  --green:#2ed573;
+  --purple:#7c5cbf;
+  --red:#ff4757;
+  --text:#e2e8f0;
+  --muted:#4a5568;
+}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;min-height:100vh;padding:1.5rem}
+
+/* HEADER */
+.header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.logo{width:42px;height:42px;background:linear-gradient(135deg,var(--cyan),var(--purple));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#000;font-size:1rem;flex-shrink:0}
+.header-text h1{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--cyan)}
+.header-text p{font-size:0.7rem;color:var(--muted);margin-top:2px}
+.live-badge{margin-left:auto;background:#1a2a1a;color:var(--green);border:1px solid var(--green);padding:0.3rem 0.8rem;border-radius:20px;font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* INPUT ROW */
+.input-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;margin-bottom:1.2rem}
+.input-label{font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.6rem}
+.input-row{display:flex;gap:0.8rem}
+input[type=text]{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.82rem;padding:0.7rem 1rem;border-radius:8px;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--cyan)}
+.btn{background:var(--cyan);color:#000;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;padding:0.7rem 1.4rem;border-radius:8px;cursor:pointer;white-space:nowrap;transition:opacity .15s,transform .1s;letter-spacing:0.03em}
+.btn:hover{opacity:0.88}
+.btn:active{transform:scale(0.97)}
+.btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:1.2rem}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.9rem;text-align:center}
+.stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;color:var(--cyan)}
+.stat-label{font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;margin-top:4px}
+
+/* MAIN GRID */
+.grid{display:grid;grid-template-columns:220px 1fr 200px;gap:1rem}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+/* PANEL */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.panel-head{padding:0.8rem 1rem;border-bottom:1px solid var(--border);font-size:0.65rem;color:var(--muted);letter-spacing:0.12em;display:flex;align-items:center;gap:0.5rem}
+.panel-body{padding:1rem}
+
+/* AGENTS */
+.agent-card{border:1px solid var(--border);border-radius:8px;padding:0.8rem;margin-bottom:0.6rem;transition:border-color .3s,background .3s}
+.agent-card.active{border-color:var(--cyan);background:#0a1a18}
+.agent-card.done{border-color:var(--green);background:#0a1a0a}
+.agent-top{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.3rem}
+.agent-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0}
+.agent-name{font-size:0.75rem;font-weight:700;color:var(--text)}
+.agent-role{font-size:0.6rem;color:var(--muted)}
+.status-pill{margin-left:auto;font-size:0.55rem;padding:0.15rem 0.4rem;border-radius:10px;letter-spacing:0.06em}
+.pill-idle{background:#1a1d2a;color:var(--muted)}
+.pill-working{background:#1a2a1a;color:var(--cyan);animation:flicker .8s infinite}
+.pill-done{background:#0a1a0a;color:var(--green)}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.6}}
+
+/* COLLABORATION FEED */
+.feed{max-height:380px;overflow-y:auto;padding-right:4px}
+.msg{display:flex;gap:0.7rem;margin-bottom:0.9rem;animation:msgIn .3s ease both}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-avatar{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;margin-top:2px}
+.msg-body{}
+.msg-header{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem}
+.msg-name{font-size:0.72rem;font-weight:700}
+.msg-time{font-size:0.6rem;color:var(--muted)}
+.msg-text{font-size:0.75rem;line-height:1.6;color:#a0aec0;background:var(--card);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:0.6rem 0.8rem}
+.msg-text.system{background:#0f1118;color:var(--muted);border-style:dashed}
+.msg-text.highlight{border-color:var(--cyan);color:var(--text)}
+
+/* DELIVERABLE */
+.deliverable{background:var(--card);border:1px solid var(--green);border-radius:8px;padding:0.8rem;margin-top:0.8rem;display:none}
+.deliverable-title{font-size:0.7rem;color:var(--green);margin-bottom:0.5rem;letter-spacing:0.08em}
+.deliverable-item{font-size:0.72rem;color:#a0aec0;padding:0.3rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem}
+.deliverable-item:last-child{border:none}
+
+/* TASK QUEUE */
+.task-item{border:1px solid var(--border);border-radius:8px;padding:0.7rem;margin-bottom:0.5rem;transition:border-color .3s}
+.task-item.pending{border-color:var(--border)}
+.task-item.running{border-color:var(--yellow)}
+.task-item.done{border-color:var(--green)}
+.task-num{font-size:0.65rem;color:var(--cyan);font-weight:700;margin-bottom:0.3rem}
+.task-type{font-size:0.7rem;color:var(--yellow);margin-bottom:0.2rem}
+.task-desc{font-size:0.65rem;color:var(--muted);line-height:1.4}
+.task-bar{height:3px;background:var(--border);border-radius:2px;margin-top:0.5rem;overflow:hidden}
+.task-progress{height:100%;background:var(--cyan);border-radius:2px;width:0%;transition:width .4s}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">IO</div>
+  <div class="header-text">
+    <h1>Intercom AI Orchestrator</h1>
+    <p>Built on Trac Network · P2P Agent Coordination</p>
+  </div>
+  <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+</div>
+
+<div class="input-section">
+  <div class="input-label">AUTOMATION GOAL</div>
+  <div class="input-row">
+    <input type="text" id="goal" value="Monitor TRAC wallet for large transfers and alert team"/>
+    <button class="btn" id="runBtn" onclick="run()">▶ Orchestrate</button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-val" id="s-tasks">0</div><div class="stat-label">SUBTASKS</div></div>
+  <div class="stat"><div class="stat-val" id="s-agents">0</div><div class="stat-label">AGENTS</div></div>
+  <div class="stat"><div class="stat-val" id="s-msgs">0</div><div class="stat-label">MESSAGES</div></div>
+  <div class="stat"><div class="stat-val" id="s-time">0s</div><div class="stat-label">AVG TIME</div></div>
+</div>
+
+<div class="grid">
+
+  <!-- LEFT: ACTIVE AGENTS -->
+  <div class="panel">
+    <div class="panel-head">🤖 ACTIVE AGENTS</div>
+    <div class="panel-body">
+      <div class="agent-card" id="ag-1">
+        <div class="agent-top">
+          <div class="agent-avatar" style="background:#0a2a1a">🔍</div>
+          <div><div class="agent-name">Data Fetcher</div><div class="agent-role">Collection & retrieval</div></div>
+          <div class="status-pill pill-idle" id="ag-1-pill">IDLE</div>
+        </div>
+      </div>
+      <div class="agent-card" id="ag-2">
+        <div class="agent-top">
+          <div class="agent-avatar" style="background:#1a1a2a">🧠</div>
+          <div><div class="agent-name">Analyzer</div><div class="agent-role">Pattern detection</div></div>
+          <div class="status-pill pill-idle" id="ag-2-pill">IDLE</div>
+        </div>
+      </div>
+      <div class="agent-card" id="ag-3">
+        <div class="agent-top">
+          <div class="agent-avatar" style="background:#2a1a0a">📡</div>
+          <div><div class="agent-name">Reporter</div><div class="agent-role">Output & alerts</div></div>
+          <div class="status-pill pill-idle" id="ag-3-pill">IDLE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIDDLE: COLLABORATION FEED -->
+  <div class="panel">
+    <div class="panel-head">💬 AGENT COLLABORATION</div>
+    <div class="panel-body">
+      <div class="feed" id="feed">
+        <div class="msg">
+          <div class="msg-avatar" style="background:#1a1d2a">⬡</div>
+          <div class="msg-body">
+            <div class="msg-header"><span class="msg-name" style="color:var(--muted)">System</span><span class="msg-time">waiting</span></div>
+            <div class="msg-text system">Enter a goal and click Orchestrate to begin …</div>
+          </div>
+        </div>
+      </div>
+      <div class="deliverable" id="deliverable">
+        <div class="deliverable-title">✅ DELIVERABLES</div>
+        <div class="deliverable-item">📊 <span>Transaction analysis complete</span></div>
+        <div class="deliverable-item">🚨 <span>2 large transfers flagged</span></div>
+        <div class="deliverable-item">📬 <span>Alert dispatched to team</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: TASK QUEUE -->
+  <div class="panel">
+    <div class="panel-head">📋 TASK QUEUE</div>
+    <div class="panel-body" id="taskQueue">
+      <div style="font-size:0.72rem;color:var(--muted)">No active tasks</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const agents = [
+  {id:'ag-1', name:'Data Fetcher', emoji:'🔍', color:'var(--cyan)'},
+  {id:'ag-2', name:'Analyzer',     emoji:'🧠', color:'var(--yellow)'},
+  {id:'ag-3', name:'Reporter',     emoji:'📡', color:'var(--green)'},
+]
+
+const plans = {
+  wallet: [
+    {agent:0, msg:'Connecting to Trac Network indexer. Fetching wallet transaction history for last 24 hours…', result:'Retrieved 47 transactions. 3 exceed threshold.'},
+    {agent:1, msg:'Analysing 47 transactions. Running threshold checks and risk scoring…', result:'Risk score: HIGH. 2 transfers >1000 TNK detected from unknown addresses.'},
+    {agent:2, msg:'Generating alert summary. Dispatching to team notification channel…', result:'Alert sent. Summary report generated. Task complete ✓'},
+  ],
+  price: [
+    {agent:0, msg:'Fetching TRAC/TNK price data from CoinGecko and on-chain DEX sources…', result:'TRAC: $0.082 · TNK: $0.0034. 24h delta: -8.2%'},
+    {agent:1, msg:'Comparing against alert thresholds. Checking for anomalies…', result:'THRESHOLD BREACH: Price dropped 8.2% — exceeds 5% alert threshold.'},
+    {agent:2, msg:'Sending price alert notifications to registered subscribers…', result:'3 subscribers notified. Alert delivered ✓'},
+  ],
+  default: [
+    {agent:0, msg:'Gathering all relevant data and context needed to fulfil the goal…', result:'Data collection complete. 12 data points retrieved.'},
+    {agent:1, msg:'Analysing collected data. Identifying key actions required…', result:'Analysis complete. 3 action items identified.'},
+    {agent:2, msg:'Executing identified actions and producing final deliverable…', result:'Deliverable ready. Task orchestration complete ✓'},
+  ]
+}
+
+let msgCount = 0
+let startTime = 0
+
+function pickPlan(goal) {
+  const g = goal.toLowerCase()
+  if (g.includes('wallet') || g.includes('transfer')) return plans.wallet
+  if (g.includes('price') || g.includes('trac') || g.includes('tnk')) return plans.price
+  return plans.default
+}
+
+function ts() { return new Date().toTimeString().slice(0,8) }
+
+function addMsg(agentIdx, text, highlight=false) {
+  const feed = document.getElementById('feed')
+  const ag = agentIdx === -1 ? null : agents[agentIdx]
+  const div = document.createElement('div')
+  div.className = 'msg'
+  div.style.animationDelay = '0s'
+  if (ag) {
+    div.innerHTML = `
+      <div class="msg-avatar" style="background:#1a1d2a">${ag.emoji}</div>
+      <div class="msg-body">
+        <div class="msg-header">
+          <span class="msg-name" style="color:${ag.color}">${ag.name}</span>
+          <span class="msg-time">${ts()}</span>
+        </div>
+        <div class="msg-text${highlight?' highlight':''}">${text}</div>
+      </div>`
+  } else {
+    div.innerHTML = `
+      <div class="msg-avatar" style="background:#1a1d2a">⬡</div>
+      <div class="msg-body">
+        <div class="msg-header"><span class="msg-name" style="color:var(--muted)">System</span><span class="msg-time">${ts()}</span></div>
+        <div class="msg-text system">${text}</div>
+      </div>`
+  }
+  feed.appendChild(div)
+  feed.scrollTop = feed.scrollHeight
+  msgCount++
+  document.getElementById('s-msgs').textContent = msgCount
+}
+
+function setAgent(idx, state) {
+  const card = document.getElementById(`ag-${idx+1}`)
+  const pill = document.getElementById(`ag-${idx+1}-pill`)
+  card.className = `agent-card ${state}`
+  if (state === 'active') { pill.className='status-pill pill-working'; pill.textContent='WORKING' }
+  else if (state === 'done') { pill.className='status-pill pill-done'; pill.textContent='DONE' }
+  else { pill.className='status-pill pill-idle'; pill.textContent='IDLE' }
+}
+
+function renderTasks(plan) {
+  const q = document.getElementById('taskQueue')
+  q.innerHTML = ''
+  plan.forEach((p,i) => {
+    const div = document.createElement('div')
+    div.className = 'task-item pending'
+    div.id = `task-${i}`
+    div.innerHTML = `
+      <div class="task-num">#${i+1}</div>
+      <div class="task-type">${agents[p.agent].name}</div>
+      <div class="task-desc">${p.msg.slice(0,60)}…</div>
+      <div class="task-bar"><div class="task-progress" id="tp-${i}"></div></div>`
+    q.appendChild(div)
+  })
+  document.getElementById('s-tasks').textContent = plan.length
+}
+
+function setTaskState(i, state, pct) {
+  const t = document.getElementById(`task-${i}`)
+  const p = document.getElementById(`tp-${i}`)
+  if (t) t.className = `task-item ${state}`
+  if (p) p.style.width = pct + '%'
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)) }
+
+async function run() {
+  const goal = document.getElementById('goal').value.trim()
+  if (!goal) return
+  const btn = document.getElementById('runBtn')
+  btn.disabled = true
+  btn.textContent = '⟳ Running…'
+  msgCount = 0
+  startTime = Date.now()
+
+  // reset
+  document.getElementById('feed').innerHTML = ''
+  document.getElementById('deliverable').style.display = 'none'
+  document.getElementById('s-msgs').textContent = 0
+  document.getElementById('s-agents').textContent = 0
+  document.getElementById('s-time').textContent = '0s'
+  agents.forEach((_,i) => setAgent(i, ''))
+
+  const plan = pickPlan(goal)
+  renderTasks(plan)
+
+  addMsg(-1, `Joining Intercom sidechannel: <span style="color:var(--cyan)">intercom-ai-orchestrator-v1</span>`)
+  await delay(700)
+  addMsg(-1, `2 peers discovered on network. Goal received: "<span style="color:var(--text)">${goal}</span>"`)
+  await delay(800)
+  addMsg(-1, `Decomposing goal via LLM → <span style="color:var(--cyan)">${plan.length} subtasks</span> generated`)
+  await delay(600)
+  document.getElementById('s-agents').textContent = plan.length
+
+  for (let i = 0; i < plan.length; i++) {
+    const step = plan[i]
+    await delay(400)
+    setAgent(step.agent, 'active')
+    setTaskState(i, 'running', 30)
+    addMsg(step.agent, step.msg)
+    await delay(300)
+    setTaskState(i, 'running', 70)
+    await delay(1200)
+    setTaskState(i, 'done', 100)
+    addMsg(step.agent, step.result, true)
+    setAgent(step.agent, 'done')
+    await delay(300)
+  }
+
+  await delay(500)
+  addMsg(-1, `All subtasks complete. Broadcasting results over sidechannel…`)
+  await delay(600)
+  document.getElementById('deliverable').style.display = 'block'
+  const elapsed = Math.round((Date.now() - startTime) / 1000)
+  document.getElementById('s-time').textContent = elapsed + 's'
+
+  btn.disabled = false
+  btn.textContent = '▶ Orchestrate'
+}
+</script>
+</body>
+</html>
